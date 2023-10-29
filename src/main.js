@@ -119,6 +119,14 @@ function makeBookCard(bookObject) {
     return bookcard;
 }
 
+function resetFormInput() {
+    document.getElementById('inputBookTitle').value = '';
+    document.getElementById('inputBookAuthor').value = '';
+    document.getElementById('inputBookYear').value = '';
+    document.getElementById('inputBookIsComplete').checked = false;
+
+}
+
 function addBook() {
     const bookID = generateId();
     const bookTitle = document.getElementById('inputBookTitle').value;
@@ -126,10 +134,11 @@ function addBook() {
     const bookYear = document.getElementById('inputBookYear').value;
     const bookIsComplete = document.getElementById('inputBookIsComplete').checked;
 
-    const bookObject = generateBookObject(bookID, bookTitle, bookAuthor, bookYear, bookIsComplete);
+    const bookObject = generateBookObject(bookID, bookTitle, bookAuthor, Number(bookYear), bookIsComplete);
     books.push(bookObject);
 
     document.dispatchEvent(new Event(RENDER_EVENT));
+    resetFormInput();
     alertInfo('add', bookTitle, 'to');
 }
 
@@ -155,7 +164,7 @@ function updateDetailBook(updateBookObject) {
 
     targetBook.title = updateBookObject.title;
     targetBook.author = updateBookObject.author;
-    targetBook.year = updateBookObject.year;
+    targetBook.year = Number(updateBookObject.year);
     targetBook.isCompleted = updateBookObject.isCompleted;
 
     document.dispatchEvent(new Event(RENDER_EVENT));
